@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Ensure the video covers the entire background */
+        .bg-video {
+            position: fixed;
+            right: -10px;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+            overflow-x: hidden; /* Prevent horizontal overflow */
+            scroll-behavior: smooth; /* Enable smooth scrolling */
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.8);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            padding: 20px;
+            color: #e0e0e0;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-title {
+            font-size: 2rem; /* Increase the font size */
+            font-weight: bold; /* Make the text bold */
+            color: #00c8ff; /* Bright color for visibility */
+            text-shadow: 0 0 15px rgba(0, 200, 255, 0.9); /* Stronger text shadow */
+            background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            padding: 10px; /* Add padding around the text */
+            border-radius: 10px; /* Rounded corners for background */
+            margin-bottom: 20px; /* Space below the heading */
+            margin-top: 30px; /* Move the heading down from the top */
+        }
+
+        .btn {
+            border-radius: 20px;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #00c8ff;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
+        }
+
+        .btn-primary:hover {
+            background-color: #0099cc;
+            color: #ffffff;
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0, 200, 255, 0.7);
+        }
+
+        .btn-secondary {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background-color: #333333;
+            color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            text-shadow: 0 0 5px rgba(0, 200, 255, 0.5);
+        }
+
+        /* Scroll effect on sections */
+        section {
+            padding: 60px 20px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        section:nth-of-type(even) {
+            background: rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+    <video autoplay muted loop class="bg-video">
+        <source src="{{ url_for('static', filename='bgvid.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="container">
+        <div class="card mt-5 animate__animated animate__fadeIn">
+            <div class="card-body">
+                <h3 class="card-title">Prediction Result for {{ crop_name }}</h3>
+                <p><strong>1. Nitrogen Levels:</strong> The nitrogen content in your soil is {{ conditions['N'] }}. Ensure that this level aligns with the requirements of your crop, as too much or too little nitrogen can affect plant growth.</p>
+                <p><strong>2. Phosphorus Content:</strong> Your soil's phosphorus level is {{ conditions['P'] }}. This is essential for root development and flowering. Adjust phosphorus levels accordingly to promote healthy growth.</p>
+                <p><strong>3. Potassium Amount:</strong> The potassium level is {{ conditions['K'] }}. Potassium is crucial for the overall health of your plants. Ensure that this level is optimal for the specific crops you are growing.</p>
+                <p><strong>4. Temperature Condition:</strong> The current temperature is {{ conditions['temperature'] }}°C. This is a critical factor for crop growth. Ensure that the crops you are growing thrive in this temperature range.</p>
+                <p><strong>5. Humidity Level:</strong> Humidity is at {{ conditions['humidity'] }}%. High humidity can lead to fungal issues, so monitor your crops closely and take preventive measures if necessary.</p>
+                <p><strong>6. Soil pH:</strong> The soil pH is {{ conditions['ph'] }}. This slightly acidic level is suitable for most crops, but make sure it matches the specific pH preferences of your plants.</p>
+                <p><strong>7. Rainfall Amount:</strong> The recent rainfall is {{ conditions['rainfall'] }} mm. This level of rainfall can significantly impact soil moisture. Ensure proper drainage to prevent waterlogging, or consider irrigation if rainfall decreases.</p>
+                <a class="btn btn-primary btn-lg mt-3 animate__animated animate__pulse" href="{{ url_for('input') }}" role="button">Predict Again</a>
+                <a class="btn btn-secondary btn-lg mt-3 animate__animated animate__fadeIn" href="{{ url_for('home') }}" role="button">Home</a>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

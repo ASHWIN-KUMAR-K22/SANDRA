@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Crop Name</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Ensure the video covers the entire background */
+        .bg-video {
+            position: fixed;
+            right: -10px;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #00c8ff;
+            text-shadow: 0 0 10px rgba(0, 200, 255, 0.7);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00c8ff;
+            border-radius: 15px;
+            color: #ffffff;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(0, 200, 255, 0.2);
+            border-color: #00c8ff;
+            box-shadow: 0 0 5px rgba(0, 200, 255, 0.5);
+        }
+
+        .btn-success {
+            background-color: #00c8ff;
+            border-color: #00c8ff;
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: #0099cc;
+            border-color: #0099cc;
+            transform: scale(1.05);
+        }
+
+        .animate__pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+
+        .form-group label {
+            color: #00c8ff;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(0, 200, 255, 0.7);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background video -->
+    <video autoplay muted loop class="bg-video">
+        <source src="{{ url_for('static', filename='bgvid.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="container">
+        <div class="card animate__animated animate__fadeIn">
+            <div class="card-body">
+                <h3 class="card-title">Enter Crop Name</h3>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="crop_name">Crop Name</label>
+                        <input type="text" class="form-control" id="crop_name" name="crop_name" required>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg animate__animated animate__pulse">Predict</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
